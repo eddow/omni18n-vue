@@ -1,8 +1,10 @@
 <script lang="ts">
-import { locale } from './i18n/client'
+import type { PartialLoad } from 'omni18n'
+import type { I18n } from './plugins/i18n'
+
+const { locale } = inject<I18n>('i18n')!
 
 export default {
-	// other code...
 	head() {
 		return {
 			htmlAttrs: {
@@ -10,7 +12,6 @@ export default {
 			}
 		}
 	}
-	// other code...
 }
 </script>
 <template>
