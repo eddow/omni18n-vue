@@ -1,12 +1,11 @@
 import { FileDB, I18nClient, I18nServer, type Locale } from 'omni18n/ts'
+const { locales }: { locales: Locale[] } = useAppConfig()
 
 // PoI: Manage your database here
 // Note: Dictionary data is "downloaded" at *each* request involving text, we might consider caching
 const i18nSource = new FileDB('dictionary.i18n'),
 	i18nServer = new I18nServer<I18n.KeyInfos, I18n.TextInfos>(i18nSource)
 type ClientSideError = object & { clientSide?: true }
-
-const locales: Locale[] = ['en', 'fr']
 
 class ReportingI18nClient extends I18nClient {
 	error(key: string, error: string, spec: ClientSideError) {

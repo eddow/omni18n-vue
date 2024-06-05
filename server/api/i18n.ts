@@ -33,4 +33,6 @@ export default defineEventHandler(async (event) => {
 			}
 			return await server.condense(client.locales)
 	}
+	// TODO: Translators interactions (get/put)
+	// TODO: Developers interactions (patch/delete)
 })

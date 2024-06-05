@@ -22,7 +22,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 	const client = new I18nClient([], <Condense>condense)
 	Object.assign(reports, {
 		error({ key }: TContext, error: string, spec: object) {
-			$fetch(`/i18n?error`, {
+			$fetch(`/api/api/i18n?error`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ key, error, spec })
@@ -30,7 +30,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 			return '[*translation error*]'
 		},
 		missing({ key }: TContext, fallback: string) {
-			$fetch(`/i18n?missing`, {
+			$fetch(`/api/i18n?missing`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ key })
@@ -40,7 +40,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 	})
 
 	async function condense() {
-		return await $fetch(`/i18n`, {
+		return await $fetch(`/api/i18n`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ locale: i18n.locale.value })
