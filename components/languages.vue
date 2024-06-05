@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { T, client, locale } = useNuxtApp().$i18n
+const { locale } = useNuxtApp().$i18n
 const { locales } = useAppConfig()
 import { localeFlags } from 'omni18n'
 
