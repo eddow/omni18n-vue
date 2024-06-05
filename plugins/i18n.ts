@@ -6,13 +6,11 @@ import {
 	type Translator,
 	type Condense,
 	type PartialLoad
-} from 'omni18n'
+} from 'omni18n/ts'
 //import { defineNuxtPlugin } from 'nuxt/app'
 
 // PoI: Manage your locales here
 export const locales = ['fr', 'en'] as const
-export interface TextInfos {}
-export interface KeyInfos {}
 
 export interface I18n {
 	client: I18nClient
@@ -21,7 +19,6 @@ export interface I18n {
 }
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-	console.log('i18n plugin')
 	const client = new I18nClient([], <Condense>condense)
 	Object.assign(reports, {
 		error({ key }: TContext, error: string, spec: object) {
@@ -50,12 +47,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 		})
 	}
 
-	const { partial, locale } = (
-		await useFetch('/api/i18n?partial', {
-			method: 'POST'
-		})
-	).data.value as { partial: PartialLoad; locale: Locale }
-	await client.setLocales([locale])
+	const fetched = await useFetch('/api/i18n?partial', {
+		method: 'POST'
+	})
+	const { partial, locale } = fetched.data.value as { partial: PartialLoad; locale: Locale }
+	client.setLocales([locale])
 	client.usePartial(partial)
 
 	const i18n: I18n = {
