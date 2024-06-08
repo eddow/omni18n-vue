@@ -19,7 +19,7 @@ const localeDescriptions = locales.map((locale) => ({
 			@click="() => (locale = desc.locale)"
 			:class="{ selected: locale === desc.locale }"
 		>
-			{{ desc.flag }}
+			<span v-html="desc.flag"></span>
 			{{ desc.text }}
 		</button>
 	</div>
