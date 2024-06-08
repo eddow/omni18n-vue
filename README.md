@@ -27,3 +27,7 @@ Provides access for:
   A specific access is added to retrieve a partial translation, but this is only used on SSR and the data retrieved through page data.
 - TODO: Translators interactions (get/put)
 - TODO: Developers interactions (patch/delete)
+
+## The inexistent message...
+
+...Is about the fact it's logged server-side

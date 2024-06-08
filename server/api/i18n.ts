@@ -1,4 +1,4 @@
-import { I18nClient, I18nServer, localeFlagsEngine } from 'omni18n/ts'
+import { I18nClient, I18nServer, localeFlagsEngine } from 'omni18n'
 
 export default defineEventHandler(async (event) => {
 	//const name = getRouterParam(event, 'name')

@@ -8,7 +8,7 @@ import {
 	type PartialLoad,
 	type LocaleFlagsEngine,
 	localeFlagsEngine
-} from 'omni18n/ts'
+} from 'omni18n'
 //import { defineNuxtPlugin } from 'nuxt/app'
 
 // PoI: Manage your locales here
@@ -70,7 +70,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
 	watch(
 		i18n.locale,
-		async (locale, oldLocale) => {
+		async (locale: Locale, oldLocale: Locale) => {
 			if (!locale || locale === oldLocale) return
 			await i18n.client.setLocales([locale])
 			i18n.T.value = await i18n.client.enter()

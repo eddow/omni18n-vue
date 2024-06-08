@@ -1,4 +1,4 @@
-import { FileDB, I18nClient, I18nServer, type Locale } from 'omni18n/ts'
+import { FileDB, I18nClient, I18nServer, type Locale } from 'omni18n'
 const { locales }: { locales: Locale[] } = useAppConfig()
 
 // PoI: Manage your database here
