@@ -1,7 +1,6 @@
 <script setup lang="ts">
-const { locale } = useNuxtApp().$i18n
+const { locale, localeFlags } = useNuxtApp().$i18n
 const { locales } = useAppConfig()
-import { localeFlags } from 'omni18n'
 
 function selfLocale(locale: string) {
 	return new Intl.DisplayNames(locale, { type: 'language' }).of(locale) || '???'
