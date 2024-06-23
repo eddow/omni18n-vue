@@ -1,6 +1,4 @@
 import {
-	reports,
-	type TContext,
 	I18nClient,
 	type Locale,
 	type Translator,
@@ -9,7 +7,6 @@ import {
 	type LocaleFlagsEngine,
 	localeFlagsEngine
 } from 'omni18n'
-//import { defineNuxtPlugin } from 'nuxt/app'
 
 // PoI: Manage your locales here
 export const locales = ['fr', 'en'] as const
@@ -21,26 +18,18 @@ export interface I18n {
 	localeFlags: LocaleFlagsEngine
 }
 
+class ReportingI18nClient extends I18nClient {
+	report(key: string, error: string, spec?: object | undefined): void {
+		$fetch(`/api/api/i18n?report`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ key, error, spec })
+		})
+	}
+}
+
 export default defineNuxtPlugin(async (nuxtApp) => {
-	const client = new I18nClient([], <Condense>condense)
-	Object.assign(reports, {
-		error({ key }: TContext, error: string, spec: object) {
-			$fetch(`/api/api/i18n?error`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ key, error, spec })
-			})
-			return '[*translation error*]'
-		},
-		missing({ key }: TContext, fallback: string) {
-			$fetch(`/api/i18n?missing`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ key })
-			})
-			return fallback || `[${key}]`
-		}
-	})
+	const client = new ReportingI18nClient([], <Condense>condense)
 
 	async function condense() {
 		return await $fetch(`/api/i18n`, {

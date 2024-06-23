@@ -8,10 +8,17 @@ const i18nSource = new FileDB('dictionary.i18n'),
 type ClientSideError = object & { clientSide?: true }
 
 class ReportingI18nClient extends I18nClient {
+	report(key: string, error: string, spec: ClientSideError) {
+		// PoI: actually report
+		console.error(
+			`Client-side error ${error} for ${key} in ${this.locales[0]}:`,
+			spec ? '\n' + JSON.stringify(spec, null, 2) : ''
+		)
+	}
 	error(key: string, error: string, spec: ClientSideError) {
 		// PoI: actually report
 		console.error(
-			`Error ${error} for ${key} in ${this.locales[0]}:\n`,
+			`Server-side error ${error} for ${key} in ${this.locales[0]}:\n`,
 			JSON.stringify(spec, null, 2)
 		)
 		// If error on server-side, avoid at all costs sending an email with no text
@@ -21,7 +28,7 @@ class ReportingI18nClient extends I18nClient {
 
 	missing(key: string, fallback: string) {
 		// PoI: actually report
-		console.error(`Missing ${key} in ${this.locales[0]}`)
+		console.error(`Server-side missing ${key} in ${this.locales[0]}`)
 		// If no fallbacks is provided, avoid at all costs sending an email with no text
 		if (!fallback) throw new Error(`Missing ${key} in ${this.locales[0]}`)
 		return fallback || `[${key}]`

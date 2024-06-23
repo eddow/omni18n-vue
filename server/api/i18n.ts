@@ -6,25 +6,16 @@ export default defineEventHandler(async (event) => {
 		{ client, server }: { client: I18nClient; server: I18nServer } = event.context.i18n
 	switch (event.method) {
 		case 'POST':
-			if (q.missing !== undefined) {
-				const { key } = await readBody(event)
-				// Fake fallback, we don't care about the return value but without it, the function throws
-				client.missing(key, 'client-side')
-				event.node.res.statusCode = 204
-				break
-			}
-			if (q.error !== undefined) {
+			if (q.report !== undefined) {
 				const { key, error, spec } = await readBody(event)
-				event.context.i18n.client.error(key, error, { ...spec, clientSide: true })
+				event.context.i18n.client.report(key, error, spec)
 				event.node.res.statusCode = 204
 				break
 			}
 			if (q.partial !== undefined) {
 				// This is never queried! This is only used on SSR with `useFetch` to retrieve page-data to pass from SSR to hydration
 				await client.enter()
-				const uaHeader = Array.from(event.headers.entries()).find(
-						([key, value]) => key === 'user-agent'
-					),
+				const uaHeader = Array.from(event.headers.entries()).find(([key]) => key === 'user-agent'),
 					lfEngine = localeFlagsEngine(uaHeader && uaHeader[1])
 				return {
 					locale: client.locales[0],
